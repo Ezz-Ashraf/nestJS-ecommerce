@@ -3,18 +3,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { User } from 'entities/user.entity';
+import { ItemModule } from './item/item.module';
+import { UserModule } from './user/user.module';
+import { InvoiceModule } from './invoice/invoice.module';
+import { dataSourceOptions } from 'db/data-source';
+import { InvoiceItemModule } from './invoice-item/invoice-item.module';
 
 @Module({
-  imports: [ConfigModule.forRoot() , TypeOrmModule.forRoot({
-    type:'mysql',
-    host:process.env.HOST,
-    port:3306,
-    username:process.env.USERNAME,
-    password:process.env.PASSWORD,
-    database:process.env.DB_NAME,
-    entities: [],
-    synchronize: true,
-  }),],
+  imports: [ConfigModule.forRoot() , TypeOrmModule.forRoot(dataSourceOptions), ItemModule, UserModule, InvoiceModule, InvoiceItemModule,],
   controllers: [AppController],
   providers: [AppService],
 })
