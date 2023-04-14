@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn , OneToMany } from 'typeorm';
 import { Invoice } from 'src/invoice/entities/invoice.entity';
+import { InvoiceItem } from 'src/invoice-item/entities/invoice-item.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -10,6 +11,9 @@ export class User {
 
   @Column()
   lastName: string;
+
+  @Column({unique:true})
+  email: string;
 
   @Column({ default: true })
   isActive: boolean;
@@ -23,4 +27,6 @@ export class User {
   @OneToMany(() => Invoice, (invoice) => invoice.user)
   invoices:Invoice[]
 
+  // @OneToMany(() => InvoiceItem, (invoiceItems) => invoiceItems.user)
+  // invoiceItems:InvoiceItem[]
 }

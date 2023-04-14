@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn , ManyToOne , OneToMany} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Invoice } from 'src/invoice/entities/invoice.entity';
+import { Item } from 'src/item/entities/item.entity';
 @Entity()
 export class InvoiceItem {
     @PrimaryGeneratedColumn()
@@ -7,4 +8,13 @@ export class InvoiceItem {
   
     @ManyToOne(() => Invoice, (invoice) => invoice.invoiceItems)
     invoice: Invoice
+
+    // @ManyToOne(() => User, (user) => user.invoiceItems)
+    // user: User
+
+    @ManyToOne(() => Item, (item) => item.invoiceItems)
+    item: Item
+
+    @Column()
+    quantity: number;
 }

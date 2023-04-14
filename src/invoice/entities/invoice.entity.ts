@@ -11,4 +11,13 @@ export class Invoice {
   
     @OneToMany(() => InvoiceItem , (invoiceItems) =>invoiceItems.invoice )
     invoiceItems :InvoiceItem[]
+
+    @Column()
+    totalPrice: number;
+
+    @CreateDateColumn()
+    created_at: Date; // Creation date
+  
+    @UpdateDateColumn()
+    updated_at: Date; // Last updated date
 }

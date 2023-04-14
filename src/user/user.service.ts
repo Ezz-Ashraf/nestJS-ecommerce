@@ -10,29 +10,54 @@ export class UserService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
   ) {}
-  create(user:CreateUserDto) {
+ async create(user:CreateUserDto) {
     if(typeof user.firstName ==="string" && typeof user.lastName ==="string")
     {
-    return this.usersRepository.insert(user)
+      await this.usersRepository.insert(user)
+    return 'user added successfully'
     }
     else {
-      throw new BadRequestException('First Name and Last Name should be string', { cause: new Error(), description: 'Some error description' })
+      throw new BadRequestException('First Name and Last Name should be string', { cause: new Error(), description: 'First Name and Last Name should be string' })
     }
   }
 
-  findAll() {
-    return  this.usersRepository.find();
+ async  findAll() {
+    return await this.usersRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+ async findOne(id: number) {
+    const user = await this.usersRepository.findOneBy({id:id})
+    if(user)
+    {
+      return user
+    }
+    else {
+      throw new BadRequestException('No such user exists', { cause: new Error(), description: 'There is No such user with this id' })
+    }
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+ async update(id: number, updateUserDto: UpdateUserDto) {
+    const userExists = await this.usersRepository.exist({ where: { id: id } })
+    if(userExists)
+    {
+      await this.usersRepository.update({  id: id  },updateUserDto)
+      return 'user updated succresfully'
+    }
+    else {
+      throw new BadRequestException('No such user exists', { cause: new Error(), description: 'There is No such user with this id' })
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+ async remove(id: number) {
+  const userExists = await this.usersRepository.exist({ where: { id: id } })
+  if(userExists)
+  {
+     await this.usersRepository.delete({id:id});
+    return 'user deleted succresfully'
+  }
+  else {
+    throw new BadRequestException('No such user exists', { cause: new Error(), description: 'There is No such user with this id' })
+  }
+
   }
 }
