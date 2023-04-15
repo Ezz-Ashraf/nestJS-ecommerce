@@ -1,6 +1,9 @@
 import { DataSource } from "typeorm"
-import { User } from "../entities/user.entity"
+import { User } from './user/entities/user.entity';
 import { ConfigModule } from '@nestjs/config';
+import { Invoice } from "./invoice/entities/invoice.entity";
+import { InvoiceItem } from "./invoice-item/entities/invoice-item.entity";
+import { Item } from "./item/entities/item.entity";
 
 ConfigModule.forRoot()
 export const AppDataSource = new DataSource({
@@ -10,7 +13,7 @@ export const AppDataSource = new DataSource({
     username:process.env.USERNAME,
     password:process.env.PASSWORD,
     database:process.env.DB_NAME,
-    entities: [User],
+    entities: [User,Invoice,InvoiceItem,Item],
     migrations: ['src/migration/*{.ts,.js}'],
     synchronize: true,
   })

@@ -19,8 +19,15 @@ export class InvoiceController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.invoiceService.findOne(+id);
+    return this.invoiceService.InvoiceDetails(+id)
   }
+
+  @Get('/user/:id')
+  userInvoices(@Param('id') id: string) {
+    return this.invoiceService.userInvoice(+id);
+  }
+
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateInvoiceDto: UpdateInvoiceDto) {

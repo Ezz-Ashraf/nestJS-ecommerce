@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
-import { User } from 'entities/user.entity';
+import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class UserService {
@@ -25,8 +25,9 @@ export class UserService {
     return await this.usersRepository.find();
   }
 
- async findOne(id: number) {
-    const user = await this.usersRepository.findOneBy({id:id})
+ async findOne(id: number)  {
+    const user = await this.usersRepository.createQueryBuilder("user").where("user.id = :id", { id: id })
+    .getOne()//.findOneBy({id:id})
     if(user)
     {
       return user

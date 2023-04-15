@@ -9,7 +9,7 @@ export class InvoiceItemController {
 
   @Post()
   create(@Body() createInvoiceItemDto: CreateInvoiceItemDto) {
-    return this.invoiceItemService.create(createInvoiceItemDto);
+    return 'used in invoice only'//this.invoiceItemService.create(createInvoiceItemDto);
   }
 
   @Get()
